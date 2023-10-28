@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for i in odejda %}
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title"> {{ i.name_odejda }} </h5>
+    <p class="card-text">{{ i.text_odejda }}</p>
+  <div class="card-text small text-muted"> {{ i.date_odejda }} </div>
+</div>
+{% endfor %}
+{% endblock %}

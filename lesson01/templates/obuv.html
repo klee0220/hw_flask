@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for i in obuv %}
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title"> {{ i.name_obuv }} </h5>
+    <p class="card-text">{{ i.text_obuv }}</p>
+  <div class="card-text small text-muted"> {{ i.date_obuv }} </div>
+</div>
+{% endfor %}
+{% endblock %}

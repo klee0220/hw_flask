@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link
+     href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>
+        {% block title %}
+            MAGAZINE
+        {% endblock %}
+    </title>
+</head>
+<body>
+<div class="container-fluid">
+    <ul class="nav nav-pills justify-content-end align-items-end">
+        <li class="nav-item"><a href="/odejda/" class="nav-link">odejda</a></li>
+        <li class="nav-item"><a href="/obuv/" class="nav-link">obuv</a></li>
+        <li class="nav-item"><a href="/kurtka/" class="nav-link">kurtka</a></li>
+    </ul>
+{% block content %}
+    CHE NADO?!
+{% endblock %}
+
+    <div class="row fixed-bottom modal-footer">
+        <hr>
+        <p>VOPROSI ESHE EST'? &copy;</p>
+    </div>
+</div>
+<script src="/static/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

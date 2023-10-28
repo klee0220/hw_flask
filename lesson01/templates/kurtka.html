@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for i in kurtka %}
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title"> {{ i.name_kurtka }} </h5>
+    <p class="card-text">{{ i.text_kurtka }}</p>
+  <div class="card-text small text-muted"> {{ i.date_kurtka }} </div>
+</div>
+{% endfor %}
+{% endblock %}
