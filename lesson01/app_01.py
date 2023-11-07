@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def magazine():
-    return render_template('base.html')
+    return render_template('register.html')
 
 
 @app.route('/odejda/')
@@ -33,7 +33,7 @@ def obuv():
 
 
 @app.route('/kurtka/')
-def Kurtka():
+def kurtka():
     kurtka = [{'name_kurtka': 'shuba'},
             {'text_kurtka': 'norkovaya'},
             {'date_kurtka': 'dlya viebona'}
