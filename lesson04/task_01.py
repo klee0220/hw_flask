@@ -1,81 +1,60 @@
-import asyncio
+'''
+Написать программу, которая скачивает изображения с заданных URL-адресов и
+сохраняет их на диск. Каждое изображение должно сохраняться в отдельном
+файле, название которого соответствует названию изображения в URL-адресе.
+Например URL-адрес: https://example/images/image1.jpg -> файл на диске:
+image1.jpg
+Программа должна использовать многопоточный, многопроцессорный и асинхронный подходы.
+Программа должна иметь возможность задавать список URL-адресов через
+аргументы командной строки.
+Программа должна выводить в консоль информацию о времени скачивания
+каждого изображения и общем времени выполнения программы.
+'''
+
 import sys
-import multiprocessing
+import argparse
 import threading
 import requests
 import time
-import aiohttp
+
+# Вводим URL откуда будем скачивать файлы !
+urls = ['https://',
+        'https://',
+        'https://',
+        ]
 
 
+# парсер
+def createParser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("url_parser", nargs='*', help="Путь", type=str,
+                        default=urls)
+    return parser
 
-def get_url(url: str):
-    response = requests.get(url).content
-    with open(f'{url.split("/")[-1]}', "wb") as f:
-        f.write(response)
+
+def get_url(url):
+    response = requests.get(url)
+    filename = url.split('/')[-1]
+    with open(f'Download_thread/{filename}', 'wb') as f:
+        f.write(response.content)
 
 
-def start_thread(urls: list):
-    tm = time.time()
+if __name__ == '__main__':
+    te=0
     threads = []
-    for i in urls:
-        t = threading.Thread(target=get_url, args=i)
-        threads.append(t)
-        t.start()
+    parser = createParser()
+    namespace = parser.parse_args(sys.argv[1:])
+    if namespace.url_parser:
+        urls = namespace.url_parser
 
-    for thread in threads:
-        thread.join()
-    td = time.time()
-    print(f'Download time {td - tm}')
+        for url in urls:
+            ts = time.time()
+            t = threading.Thread(target=get_url, args=(url,))
+            t.start()
+            tf = time.time()
+            te += (tf - ts)
+            print(f'Прошло времени: {tf - ts}')
 
-
-def get_url_multi(url: str):
-    response = requests.get(url).content
-    with open(f'{url.split("/")[-1]}', "wb") as f:
-        f.write(response)
-
-
-def start_multiproc(urls: list):
-    tm = time.time()
-    proces = []
-    for i in urls:
-        t = multiprocessing.Process(target=get_url_multi, args=i)
-        proces.append(t)
-        t.start()
-
-    for i in proces:
-        i.join()
-    td = time.time()
-    print(f'Download time {td - tm}')
-
-
-async def get_url_a(url: str):
-    async with aiohttp.ClientSession() as s:
-        async with s.get(url) as resp:
-            async with s.get(url) as responce:
-                with open(f'{url.split("/")[-1]}', "wb") as f:
-                    content = await responce.content.read()
-                    f.write(content)
-
-
-async def main():
-    tasks = []
-    for url in urls:
-        tasks.append(get_url_a(url))
-    await asyncio.gather(*tasks)
-
-
-if __name__ == "__main__":
-    urls = sys.argv[1:]
-    a = int(input("How to download file?: 1 - Multithreaded, 2 - Multiprocessor, 3 - Asynchronously :"))
-    if a in [1, 2, 3]:
-        if a == 3:
-            tm = time.time()
-            asyncio.run(main())
-            td = time.time()
-            print(f'Time need for: {td - tm}')
-        elif a == 1:
-            start_thread(urls)
-        elif a == 2:
-            start_multiproc(urls)
-    else:
-        print("You should more careful!!")
+    for tread in threads:
+        tread.join()
+print(f'Всего времени прошло: {te}')
